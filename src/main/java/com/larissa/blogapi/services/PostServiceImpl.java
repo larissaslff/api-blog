@@ -28,4 +28,15 @@ public class PostServiceImpl implements PostService {
                 .build();
         return response;
     }
+
+    @Override
+    public PostDto getById(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(null);
+        PostDto response = PostDto.builder()
+                .autor(post.getAutor())
+                .tags(post.getTags())
+                .titulo(post.getTitulo())
+                .build();
+        return response;
+    }
 }
