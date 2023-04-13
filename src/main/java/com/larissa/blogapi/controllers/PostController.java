@@ -33,5 +33,10 @@ public class PostController {
         List<PostDto> allPosts = postService.getAllPosts();
         return ok(allPosts);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePost(@PathVariable(name = "id") Long postId){
+        postService.deletePost(postId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 }
