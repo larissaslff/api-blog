@@ -3,40 +3,41 @@ package com.larissa.blogapi.services;
 import com.larissa.blogapi.domain.Post;
 import com.larissa.blogapi.domain.PostDto;
 import com.larissa.blogapi.repositories.PostRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     PostRepository postRepository;
 
-    PostServiceImpl(PostRepository postRepository){
+    ModelMapper mapper;
+
+    PostServiceImpl(PostRepository postRepository, ModelMapper mapper){
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
     @Override
     public PostDto addPost(PostDto postDto) {
-        Post post = Post.builder()
-                .autor(postDto.getAutor())
-                .titulo(postDto.getTitulo())
-                .tags(postDto.getTags())
-                .build();
+        Post post = mapper.map(postDto, Post.class);
         Post postSaved = postRepository.save(post);
-        PostDto response = PostDto.builder()
-                .autor(postSaved.getAutor())
-                .tags(postSaved.getTags())
-                .titulo(postSaved.getTitulo())
-                .build();
+        PostDto response = mapper.map(postSaved, PostDto.class);
         return response;
     }
 
     @Override
-    public PostDto getById(Long postId) {
+    public PostDto getPostById(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(null);
-        PostDto response = PostDto.builder()
-                .autor(post.getAutor())
-                .tags(post.getTags())
-                .titulo(post.getTitulo())
-                .build();
+        PostDto response = mapper.map(post, PostDto.class);
         return response;
+    }
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<Post> allPosts = postRepository.findAll();
+        List<PostDto> postsResponse = allPosts.stream().map(x -> mapper.map(x, PostDto.class)).toList();
+        return postsResponse;
     }
 }

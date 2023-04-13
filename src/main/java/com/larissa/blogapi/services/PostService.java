@@ -2,8 +2,11 @@ package com.larissa.blogapi.services;
 
 import com.larissa.blogapi.domain.PostDto;
 
+import java.util.List;
+
 public interface PostService {
 
     PostDto addPost(PostDto postDto);
-    PostDto getById(Long postId);
+    PostDto getPostById(Long postId);
+    List<PostDto> getAllPosts();
 }

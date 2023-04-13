@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -23,8 +25,13 @@ public class PostController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long postId){
-        PostDto postResponse = postService.getById(postId);
+        PostDto postResponse = postService.getPostById(postId);
         return ok(postResponse);
+    }
+    @GetMapping
+    public ResponseEntity<List<PostDto>> getAllPost(){
+        List<PostDto> allPosts = postService.getAllPosts();
+        return ok(allPosts);
     }
 
 }
