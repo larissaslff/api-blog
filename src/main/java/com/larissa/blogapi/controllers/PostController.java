@@ -33,6 +33,11 @@ public class PostController {
         List<PostDto> allPosts = postService.getAllPosts();
         return ok(allPosts);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDto> updatePost(@PathVariable(name = "id") Long postId, @RequestBody PostDto postDto){
+        PostDto postResponse = postService.updatePost(postId, postDto);
+        return ok(postResponse);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity deletePost(@PathVariable(name = "id") Long postId){
         postService.deletePost(postId);

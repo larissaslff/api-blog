@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -40,6 +39,19 @@ public class PostServiceImpl implements PostService {
         List<Post> allPosts = postRepository.findAll();
         List<PostDto> postsResponse = allPosts.stream().map(x -> mapper.map(x, PostDto.class)).toList();
         return postsResponse;
+    }
+
+    @Override
+    public PostDto updatePost(Long postId, PostDto postDto) {
+        Post postFound = postRepository.findById(postId).orElseThrow(null);
+        Post postToUpdate = Post.builder()
+                .id(postId)
+                .tags(postDto.getTags())
+                .autor(postDto.getAutor())
+                .titulo(postDto.getTitulo())
+                .build();
+        Post postUpdated = postRepository.save(postToUpdate);
+        return mapper.map(postUpdated, PostDto.class);
     }
 
     @Override
