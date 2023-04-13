@@ -5,17 +5,19 @@ import lombok.*;
 
 import java.util.List;
 @Builder
-@Table(name = "posts")
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private List<String> tags;
     private String autor;
+    @OneToMany(mappedBy = "postId")
+    private List<Comment> comments;
 }
