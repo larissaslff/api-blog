@@ -43,5 +43,10 @@ public class PostController {
         postService.deletePost(postId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/comments/{id}")
+    public ResponseEntity<PostDto> getPostByCommentId(@PathVariable(name = "id") Long commentId) {
+        PostDto postByCommentId = postService.findPostByCommentId(commentId);
+        return ok(postByCommentId);
+    }
 
 }

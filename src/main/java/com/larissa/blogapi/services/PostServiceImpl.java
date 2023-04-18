@@ -1,24 +1,29 @@
 package com.larissa.blogapi.services;
 
+import com.larissa.blogapi.domain.Comment;
 import com.larissa.blogapi.domain.DTO.PostDto;
 import com.larissa.blogapi.domain.Post;
+import com.larissa.blogapi.repositories.CommentRepository;
 import com.larissa.blogapi.repositories.PostRepository;
 import com.larissa.blogapi.utils.exceptions.ResourceNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
 
+    CommentRepository commentRepository;
     PostRepository postRepository;
 
     ModelMapper mapper;
 
-    private PostServiceImpl(PostRepository postRepository, ModelMapper mapper){
+    private PostServiceImpl(PostRepository postRepository, ModelMapper mapper, CommentRepository commentRepository){
         this.postRepository = postRepository;
         this.mapper = mapper;
+        this.commentRepository = commentRepository;
     }
     @Override
     public PostDto addPost(PostDto postDto) {
@@ -59,6 +64,14 @@ public class PostServiceImpl implements PostService {
     public void deletePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFound("Post not found"));
         postRepository.delete(post);
+    }
+
+    @Override
+    public PostDto findPostByCommentId(Long commentId) {
+        Comment commentSaved = commentRepository.findById(commentId).get();
+        Post post = commentSaved.getPostId();
+        PostDto postSaved = mapper.map(post, PostDto.class);
+        return postSaved;
     }
 
 }
