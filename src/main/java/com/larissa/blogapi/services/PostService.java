@@ -1,6 +1,6 @@
 package com.larissa.blogapi.services;
 
-import com.larissa.blogapi.domain.PostDto;
+import com.larissa.blogapi.domain.DTO.PostDto;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package com.larissa.blogapi.domain;
+package com.larissa.blogapi.domain.DTO;
 
+import com.larissa.blogapi.domain.Comment;
 import lombok.*;
 
 import java.util.List;
@@ -9,7 +10,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDto {
+    private Long postId;
     private String titulo;
     private List<String> tags;
     private String autor;
+    private List<Comment> comments;
 }

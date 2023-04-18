@@ -1,14 +1,15 @@
 package com.larissa.blogapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "comments")
 public class Comment {
     @Id
@@ -18,5 +19,6 @@ public class Comment {
     private String autor;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id-post")
+    @JsonIgnore
     private Post postId;
 }

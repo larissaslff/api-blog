@@ -1,6 +1,6 @@
 package com.larissa.blogapi.controllers;
 
-import com.larissa.blogapi.domain.PostDto;
+import com.larissa.blogapi.domain.DTO.PostDto;
 import com.larissa.blogapi.services.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

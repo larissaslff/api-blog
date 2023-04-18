@@ -1,8 +1,9 @@
 package com.larissa.blogapi.services;
 
+import com.larissa.blogapi.domain.DTO.PostDto;
 import com.larissa.blogapi.domain.Post;
-import com.larissa.blogapi.domain.PostDto;
 import com.larissa.blogapi.repositories.PostRepository;
+import com.larissa.blogapi.utils.exceptions.ResourceNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(null);
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFound("Post not found"));
         PostDto response = mapper.map(post, PostDto.class);
         return response;
     }
@@ -43,7 +44,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(Long postId, PostDto postDto) {
-        Post postFound = postRepository.findById(postId).orElseThrow(null);
+        Post postFound = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFound("Post not found"));
         Post postToUpdate = Post.builder()
                 .id(postId)
                 .tags(postDto.getTags())
@@ -56,7 +57,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(null);
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFound("Post not found"));
         postRepository.delete(post);
     }
 

@@ -1,8 +1,10 @@
 package com.larissa.blogapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @Builder
 @Getter
@@ -16,8 +18,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
     private String autor;
     @OneToMany(mappedBy = "postId")
-    private List<Comment> comments;
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
 }
