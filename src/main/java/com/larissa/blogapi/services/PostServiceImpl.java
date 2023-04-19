@@ -1,6 +1,7 @@
 package com.larissa.blogapi.services;
 
 import com.larissa.blogapi.domain.Comment;
+import com.larissa.blogapi.domain.DTO.CommentDto;
 import com.larissa.blogapi.domain.DTO.PostDto;
 import com.larissa.blogapi.domain.Post;
 import com.larissa.blogapi.repositories.CommentRepository;
@@ -8,6 +9,10 @@ import com.larissa.blogapi.repositories.PostRepository;
 import com.larissa.blogapi.utils.exceptions.ResourceNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +77,16 @@ public class PostServiceImpl implements PostService {
         Post post = commentSaved.getPostId();
         PostDto postSaved = mapper.map(post, PostDto.class);
         return postSaved;
+    }
+
+    @Override
+    public PostDto addComment(@PathVariable(name = "id") Long id, @RequestBody CommentDto commentDto) {
+        Optional<Post> postCreated = postRepository.findById(id);
+        Comment commentToSave = mapper.map(commentDto, Comment.class);
+        commentToSave.setPostId(postCreated.get());
+        Comment savedComment = commentRepository.save(commentToSave);
+        PostDto post = mapper.map(postCreated.get(), PostDto.class);
+        return post;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.larissa.blogapi.controllers;
 
+import com.larissa.blogapi.domain.DTO.CommentDto;
 import com.larissa.blogapi.domain.DTO.PostDto;
 import com.larissa.blogapi.services.PostService;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,12 @@ public class PostController {
     public ResponseEntity<PostDto> getPostByCommentId(@PathVariable(name = "id") Long commentId) {
         PostDto postByCommentId = postService.findPostByCommentId(commentId);
         return ok(postByCommentId);
+    }
+
+    @PostMapping("{id}/comments")
+    public ResponseEntity<PostDto> addComment(@PathVariable(name = "id") Long id, @RequestBody CommentDto commentDto) {
+        PostDto post = postService.addComment(id, commentDto);
+        return ok(post);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.larissa.blogapi.services;
 
+import com.larissa.blogapi.domain.DTO.CommentDto;
 import com.larissa.blogapi.domain.DTO.PostDto;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface PostService {
     PostDto updatePost(Long postId, PostDto postDto);
     void deletePost(Long postId);
     PostDto findPostByCommentId(Long commentId);
+    PostDto addComment(Long postId, CommentDto commentDto);
 }
