@@ -14,4 +14,5 @@ public interface PostService {
     void deletePost(Long postId);
     PostDto findPostByCommentId(Long commentId);
     PostDto addComment(Long postId, CommentDto commentDto);
+    void deleteCommentByPost(Long postId, Long commentId);
 }

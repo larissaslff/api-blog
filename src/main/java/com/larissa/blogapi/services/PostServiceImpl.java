@@ -10,9 +10,7 @@ import com.larissa.blogapi.utils.exceptions.ResourceNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +85,15 @@ public class PostServiceImpl implements PostService {
         Comment savedComment = commentRepository.save(commentToSave);
         PostDto post = mapper.map(postCreated.get(), PostDto.class);
         return post;
+    }
+
+    @Override
+    public void deleteCommentByPost(Long postId, Long commentId) {
+        Optional<Post> postSaved = postRepository.findById(postId);
+        Optional<Comment> commentSaved = commentRepository.findById(commentId);
+        if(postSaved.isPresent() && commentSaved.isPresent()) {
+            commentRepository.delete(commentSaved.get());
+        }
     }
 
 }
